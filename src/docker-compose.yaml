@@ -1,0 +1,32 @@
+version: "3.7"
+
+services:
+
+  postgres:
+    build: ./postgres
+    container_name: postgres
+    restart: always
+    volumes:
+      - ./db:/var/lib/postgresql
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: 'master'
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'temp'
+
+  app:
+    build: ./simple_translation_app
+    container_name: simple_translation_app
+    restart: always
+    environment:
+      - APP_NAME=SimpleTranslationApp
+    expose:
+      - 8080
+
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    restart: always
+    ports:
+      - "80:80"
