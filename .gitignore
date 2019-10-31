@@ -114,5 +114,5 @@ dmypy.json
 
 # Other
 .DS_Store
-
+.env
 # End of https://www.gitignore.io/api/flask
