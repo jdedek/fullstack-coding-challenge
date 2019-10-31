@@ -1,5 +1,5 @@
 from enum import Enum
-from app import db
+from . import db
 
 class Language(Enum):
     ENGLISH = "en"

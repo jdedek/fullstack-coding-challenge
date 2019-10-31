@@ -15,6 +15,4 @@ RUN apt-get update -y
 RUN pip install --upgrade pip -r requirements.txt
 
 # run the command to start uWSGI
-#ENTRYPOINT ["uwsgi", "app.ini"]
-RUN chmod +x ./start.sh
-CMD ["./start.sh"]
+ENTRYPOINT ["uwsgi", "app.ini"]
