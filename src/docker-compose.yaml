@@ -3,24 +3,22 @@ version: "3.7"
 services:
 
   postgres:
-    build: ./postgres
     container_name: postgres
+    image: postgres:10.10
     restart: always
+    env_file: .env
     volumes:
-      - ./db:/var/lib/postgresql
+      - db_volume:/var/lib/postgresql
     ports:
       - "5432:5432"
-    environment:
-      POSTGRES_DB: 'master'
-      POSTGRES_USER: 'postgres'
-      POSTGRES_PASSWORD: 'temp'
 
   app:
-    build: ./simple_translation_app
-    container_name: simple_translation_app
+    build: ./translation_app
+    container_name: translation_app
+    depends_on:
+      - postgres
     restart: always
-    environment:
-      - APP_NAME=SimpleTranslationApp
+    env_file: .env
     expose:
       - 8080
 
@@ -30,3 +28,6 @@ services:
     restart: always
     ports:
       - "80:80"
+
+volumes:
+  db_volume:
