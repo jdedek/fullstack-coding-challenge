@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_bootstrap import Bootstrap
+from flask_cors import CORS
 
 from . import config
 
@@ -12,6 +13,9 @@ def create_app():
     # Create a bootstrap instance
     Bootstrap(app)
 
+    # enable CORS
+    CORS(app, resources={r'/*': {'origins': '*'}})
+    
     # This makes sure that the operations are active in the right app context
     # in detail inside the Flask docs:
     # https://flask.palletsprojects.com/en/1.1.x/appcontext/

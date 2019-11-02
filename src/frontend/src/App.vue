@@ -1,0 +1,69 @@
+<template>
+  <v-app>
+    <v-app-bar color="#3248d5" app>
+      <v-toolbar-title class="headline text-uppercase">
+        <v-img :src="require('@/assets/unbabel-logo.svg')"></v-img>
+      </v-toolbar-title>
+    </v-app-bar>
+
+    <v-content>
+      <v-container fluid>
+          <TranslationBox v-on:add-translation="addTranslation"/>
+          <TranslationList v-bind:translations="translations" v-on:del-translation="deleteTranslation" />
+      </v-container>
+    </v-content>
+
+  </v-app>
+</template>
+
+<style scoped>
+
+</style>
+
+<script>
+import TranslationBox from './components/TranslationBox.vue';
+import TranslationList from './components/TranslationList.vue';
+import axios from 'axios';
+
+export default {
+  name: 'App',
+  components: {
+    TranslationBox,
+    TranslationList
+  },
+  data() {
+    return {
+      translations: []
+    }
+  },
+  methods: {
+    deleteTranslation(id) {
+      axios.delete(`http://localhost:5000/api/translations/${id}`);
+      this.translations = this.translations.filter(translation => translation.id !== id);
+      this.translations.sort((a, b) => a.orig_text.localeCompare(b.orig_text));
+    },
+
+    addTranslation(newTranslation) {
+      const { orig_text, trans_text, target_language, source_language, status } = newTranslation;
+
+      axios.post("http://localhost:5000/api/translations/", {
+        orig_text,
+        trans_text,
+        target_language, 
+        source_language, 
+        status         
+      })
+        .then(res => this.translations = [...this.translations, res.data])
+      
+      this.translations.sort((a, b) => a.orig_text.localeCompare(b.orig_text));
+    },
+
+    created() {
+      axios.get("http://localhost:5000/api/translations/")
+        .then(res => this.translations = res.data)
+      this.translations.sort((a, b) => a.orig_text.localeCompare(b.orig_text));
+
+    },
+  }
+}
+</script>

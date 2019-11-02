@@ -113,6 +113,14 @@ dmypy.json
 .pyre/
 
 # Other
-.DS_Store
 .env
+.DS_Store
+Thumbs.db
+db.json
+*.log
+node_modules/
+public/
+.deploy*/
+src/_drafts
+package-lock.json
 # End of https://www.gitignore.io/api/flask

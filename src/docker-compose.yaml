@@ -12,15 +12,15 @@ services:
     ports:
       - "5432:5432"
 
-  app:
-    build: ./translation_app
-    container_name: translation_app
+  backend:
+    build: ./backend
+    container_name: backend
     env_file: .env
     depends_on:
       - db
     restart: always
     expose:
-      - 8080
+      - 5000
 
   nginx:
     build: ./nginx
@@ -28,9 +28,19 @@ services:
     env_file: .env
     restart: always
     depends_on:
-      - app
+      - frontend
+      - backend
     ports:
       - "80:80"
+
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    environment:
+      - npm_config_unsafe_perm=true
+    expose:
+      - "8080"
 
 volumes:
   db_volume:
