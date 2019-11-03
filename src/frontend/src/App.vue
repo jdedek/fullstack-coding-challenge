@@ -38,32 +38,29 @@ export default {
   },
   methods: {
     deleteTranslation(id) {
-      axios.delete(`http://localhost:5000/api/translations/${id}`);
+      axios.delete(`http://localhost/api/translations/${id}`);
       this.translations = this.translations.filter(translation => translation.id !== id);
       this.translations.sort((a, b) => a.orig_text.localeCompare(b.orig_text));
     },
 
     addTranslation(newTranslation) {
-      const { orig_text, trans_text, target_language, source_language, status } = newTranslation;
+      const { orig_text, target_language, source_language, status } = newTranslation;
 
-      axios.post("http://localhost:5000/api/translations/", {
+      axios.post("http://localhost/api/translations/", {
         orig_text,
-        trans_text,
         target_language, 
         source_language, 
         status         
       })
-        .then(res => this.translations = [...this.translations, res.data])
+        .then(res => {this.translations = [...this.translations, res.data.data]})
       
       this.translations.sort((a, b) => a.orig_text.localeCompare(b.orig_text));
     },
-
-    created() {
-      axios.get("http://localhost:5000/api/translations/")
-        .then(res => this.translations = res.data)
-      this.translations.sort((a, b) => a.orig_text.localeCompare(b.orig_text));
-
-    },
-  }
+  },
+  mounted: function() {
+    axios.get(`http://localhost/api/translations/`)
+      .then(res => {this.translations = res.data.data})
+    this.translations.sort((a, b) => a.orig_text.localeCompare(b.orig_text));
+  },
 }
 </script>

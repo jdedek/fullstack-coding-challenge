@@ -4,6 +4,9 @@ Flask-SQLAlchemy==2.4.1
 Flask-Migrate==2.5.2
 psycopg2==2.8.4
 uwsgi==2.0.18
-Flask-Bootstrap==3.3.7.1
 Flask-CORS==3.0.8
+Flask-RESTful==0.3.7
+flask-marshmallow==0.10.1
+marshmallow==2.15.2
+marshmallow-sqlalchemy==0.19.0
 unbabel-py==0.49
