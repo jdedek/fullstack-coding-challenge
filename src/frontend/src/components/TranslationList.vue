@@ -7,9 +7,9 @@
                 </v-text>
             </v-col>
         </v-row>
-        <v-expansion-panels v-bind:key="translation.id" v-for="translation in translations">
+        <v-expansion-panels v-bind:key="translation.uid" v-for="translation in translations" >
             <v-col cols="12" md="6">
-                <TranslationItem v-bind:translation="translation" v-on:del-translation="$emit('del-translation', translation.id)"/>
+                <TranslationItem v-bind:translation="translation" v-on:del-translation="$emit('del-translation', translation.uid)"/>
             </v-col>
         </v-expansion-panels>
     </div>

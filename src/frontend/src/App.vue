@@ -9,7 +9,7 @@
     <v-content>
       <v-container fluid>
           <TranslationBox v-on:add-translation="addTranslation"/>
-          <TranslationList v-bind:translations="translations" v-on:del-translation="deleteTranslation" />
+          <TranslationList v-bind:translations="translations" v-on:del-translation="deleteTranslation"/>
       </v-container>
     </v-content>
 
@@ -33,15 +33,15 @@ export default {
   },
   data() {
     return {
-      translations: []
+      translations: [],
     }
   },
   methods: {
-    deleteTranslation(id) {
-      axios.delete(`http://localhost/api/translations/${id}`);
-      this.translations = this.translations.filter(translation => translation.id !== id);
-      this.translations.sort((a, b) => a.orig_text.localeCompare(b.orig_text));
-    },
+    deleteTranslation(uid) {
+      axios.delete(`http://localhost/api/translations/${uid}`);
+      this.translations = this.translations.filter(translation => translation.uid !== uid);
+      this.translations.sort((a, b) => b.orig_text.length - a.orig_text.length)
+  },
 
     addTranslation(newTranslation) {
       const { orig_text, target_language, source_language, status } = newTranslation;
@@ -53,14 +53,13 @@ export default {
         status         
       })
         .then(res => {this.translations = [...this.translations, res.data.data]})
-      
-      this.translations.sort((a, b) => a.orig_text.localeCompare(b.orig_text));
+      this.translations.sort((a, b) => b.orig_text.length - a.orig_text.length)
     },
   },
   mounted: function() {
     axios.get(`http://localhost/api/translations/`)
       .then(res => {this.translations = res.data.data})
-    this.translations.sort((a, b) => a.orig_text.localeCompare(b.orig_text));
+    this.translations.sort((a, b) => b.orig_text.length - a.orig_text.length)
   },
 }
 </script>

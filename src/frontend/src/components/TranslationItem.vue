@@ -24,7 +24,7 @@
             <v-expansion-panel-content>
                 <v-row justify="end">
                     <v-btn icon>
-                        <v-icon @click="$emit('del-translation', translation.id)" class="del mr-3 mb-6">mdi-trash-can-outline</v-icon>
+                        <v-icon @click="$emit('del-translation', translation.uid)" class="del mr-3 mb-6">mdi-trash-can-outline</v-icon>
                     </v-btn>
                 </v-row>
                 <v-row justify="center">

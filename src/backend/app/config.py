@@ -1,7 +1,18 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""
+This module contains the different setting configurations
+of the API. Sentitive informations are stored in the .env
+file and get imported here.
+"""
+
 import os
-basedir = os.path.abspath(os.path.dirname(__file__))
+
 
 class Config(object):
+    """ Base class for configurations """
+
     DEBUG = False
     TESTING = False
     CSRF_ENABLED = True
@@ -14,14 +25,18 @@ class Config(object):
     DATABASE_URI = f'postgresql+psycopg2://{user}:{password}@{host}:{port}/{database}'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+
 class ProductionConfig(Config):
+    """ Class for production configuration """
     DEBUG = False
 
 
 class DevelopmentConfig(Config):
+    """ Class for development configuration """
     DEVELOPMENT = True
     DEBUG = True
 
 
 class TestingConfig(Config):
+    """ Class for test configuration """
     TESTING = True
