@@ -8,7 +8,7 @@ defines API URLs and initiates the database and migrations
 
 from logging.config import dictConfig
 
-from flask import Flask, Blueprint
+from flask import Flask
 from flask_restful import Api
 from flask_cors import CORS
 
@@ -33,7 +33,7 @@ dictConfig({
 })
 
 
-def create_app():
+def create_app(config_name):
     """
     Sets up the Flask app instance with settings etc.
     Uses the "Application Factory"-pattern here, which is described
@@ -50,10 +50,10 @@ def create_app():
     # https://flask.palletsprojects.com/en/1.1.x/appcontext/
     with app.app_context():
         # loads the setting from the config.py
-        app.config.from_object(config.Config)
-        app.config['SQLALCHEMY_DATABASE_URI'] = config.Config.DATABASE_URI
+        app.config.from_object(config.app_config[config_name])
+        app.config.from_pyfile('config.py')
+        app.config['SQLALCHEMY_DATABASE_URI'] = config.Config.SQLALCHEMY_DATABASE_URI
         app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = config.Config.SQLALCHEMY_TRACK_MODIFICATIONS
-
         # defines the API ressource URLs
         from app.routes.api import TranslationRessource
 

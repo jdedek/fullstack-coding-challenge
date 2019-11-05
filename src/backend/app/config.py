@@ -9,6 +9,12 @@ file and get imported here.
 
 import os
 
+# Postgres credentials
+user = os.environ['POSTGRES_USER']
+password = os.environ['POSTGRES_PASSWORD']
+host = os.environ['POSTGRES_HOST']
+database = os.environ['POSTGRES_DB']
+port = os.environ['POSTGRES_PORT']
 
 class Config(object):
     """ Base class for configurations """
@@ -17,26 +23,35 @@ class Config(object):
     TESTING = False
     CSRF_ENABLED = True
     SECRET_KEY = os.environ["SECRET_KEY"]
-    user = os.environ['POSTGRES_USER']
-    password = os.environ['POSTGRES_PASSWORD']
-    host = os.environ['POSTGRES_HOST']
-    database = os.environ['POSTGRES_DB']
-    port = os.environ['POSTGRES_PORT']
-    DATABASE_URI = f'postgresql+psycopg2://{user}:{password}@{host}:{port}/{database}'
+    SQLALCHEMY_DATABASE_URI = f'postgresql+psycopg2://{user}:{password}@{host}:{port}/{database}'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
-class ProductionConfig(Config):
-    """ Class for production configuration """
-    DEBUG = False
-
-
 class DevelopmentConfig(Config):
-    """ Class for development configuration """
-    DEVELOPMENT = True
+    """Configurations for Development."""
     DEBUG = True
 
 
 class TestingConfig(Config):
-    """ Class for test configuration """
+    """Configurations for Testing, with a separate test database."""
     TESTING = True
+    DEBUG = True
+
+
+class StagingConfig(Config):
+    """Configurations for Staging."""
+    DEBUG = True
+
+
+class ProductionConfig(Config):
+    """Configurations for Production."""
+    DEBUG = False
+    TESTING = False
+
+
+app_config = {
+    'development': DevelopmentConfig,
+    'testing': TestingConfig,
+    'staging': StagingConfig,
+    'production': ProductionConfig,
+}

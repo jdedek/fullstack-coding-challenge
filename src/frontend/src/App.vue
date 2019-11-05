@@ -40,7 +40,7 @@ export default {
     deleteTranslation(uid) {
       axios.delete(`http://localhost/api/translations/${uid}`);
       this.translations = this.translations.filter(translation => translation.uid !== uid);
-      this.translations.sort((a, b) => b.orig_text.length - a.orig_text.length)
+      this.translations.sort((a, b) => b.trans_text.length - a.trans_text.length)
   },
 
     addTranslation(newTranslation) {
@@ -53,13 +53,13 @@ export default {
         status         
       })
         .then(res => {this.translations = [...this.translations, res.data.data]})
-      this.translations.sort((a, b) => b.orig_text.length - a.orig_text.length)
+      this.translations.sort((a, b) => b.trans_text.length - a.trans_text.length)
     },
   },
   mounted: function() {
     axios.get(`http://localhost/api/translations/`)
       .then(res => {this.translations = res.data.data})
-    this.translations.sort((a, b) => b.orig_text.length - a.orig_text.length)
+    this.translations.sort((a, b) => b.trans_text.length - a.trans_text.length)
   },
 }
 </script>

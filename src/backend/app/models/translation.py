@@ -43,12 +43,13 @@ class Translation(db.Model):
         self.trans_text = trans_text
         self.target_language = target_language
         self.source_language = source_language
-        self.status = Translation.set_status(status)
+        self.status = Translation.map_status(status)
         self.uid = uid
 
     @staticmethod
     def map_status(status):
         """ Maps the statuses of the Unbabel API to own defined statuses """
+        new_status = ""
         if "new" in status:
             new_status = "requested"
         elif "translating" in status:
@@ -70,7 +71,6 @@ class TranslationSchema(ma.Schema):
     source_language = fields.String(
         required=True, validate=validate.Length(min=2, max=2))
     status = fields.String(required=True, validate=validate.OneOf(
-        ["new", "translating", "completed", "failed", "canceled",
-            "accepted", "rejected"]))
+        ["requested", "pending", "translated"]))
     uid = fields.String(
         required=False, validate=validate.Length(min=10, max=10))

@@ -62,18 +62,18 @@ class TranslationRessource(Resource):
             # current instance of the Translation class.
             json_data = unbabel_res.json()
             if json_data:
-                if json_data['target_language']:
+                if 'target_language' in json_data.keys():
                     translation.target_language = json_data['target_language']
-                if json_data['source_language']:
+                if 'source_language' in json_data.keys():
                     translation.source_language = json_data['source_language']
-                if json_data['status']:
+                if 'status' in json_data.keys():
                     translation.status = Translation.map_status(
                         json_data['status'])
-                if json_data['uid']:
+                if 'uid' in json_data.keys():
                     translation.uid = json_data['uid']
-                if json_data["text"]:
-                    translation.trans_text = json_data['text']
-                if json_data["translatedText"]:
+                if 'text' in json_data.keys():
+                    translation.orig_text = json_data['text']
+                if 'translatedText' in json_data.keys():
                     translation.trans_text = json_data['translatedText']
 
                 # deletes the old db entry and saves it again
@@ -100,14 +100,8 @@ class TranslationRessource(Resource):
         try:
             data = translation_schema.load(json_data)
         except ValidationError as err:
-            print(err.messages)
+            app.logger.error(err.messages)
             return err.messages, 422
-
-        # checks if the same translation is already in the database
-        translation = Translation.query.filter_by(
-            orig_text=data['orig_text']).first()
-        if translation:
-            return {'message': 'Translation already exists'}, 400
 
         try:
             unbabel_res = requests.post(unbabel_api_url, headers=headers, json={

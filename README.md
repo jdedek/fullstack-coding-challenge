@@ -1,39 +1,61 @@
 # Unbabel Fullstack Challenge
 
-Hey :smile:
+This is my solution for the [Unbabel Fullstack Challenge](https://github.com/Unbabel/fullstack-coding-challenge).
+After the installation you can find the system under: http://localhost/
 
-Welcome to our Fullstack Challenge repository. This README will guide you on how to participate in this challenge.
+## Getting Started
 
-In case you are doing this to apply for our open positions for a Fullstack Developer make sure you first check the available jobs at [https://unbabel.com/jobs](https://unbabel.com/jobs)
+### Prerequisites
 
-Please fork this repo before you start working on the challenge. We will evaluate the code on the fork.
-
-**FYI:** Please understand that this challenge is not decisive if you are applying to work at [Unbabel](https://unbabel.com/jobs). There are no right and wrong answers. This is just an opportunity for us both to work together and get to know each other in a more technical way.
-
-## Challenge
-
-We're going to build a very simple translation web app based on the Unbabel API.
-
-You can find more info about the api at [https://developers.unbabel.com](https://developers.unbabel.com)
-
-1) Request an API Key to your hiring manager or point of contact for the hiring process at Unbabel so you can use the API for this tutorial.  
-2) Build a basic web app with a simple input field that takes an English (EN) input translates it to Spanish (ES).  
-3) When a new translation is requested it should add to a list below the input field (showing one of three status: requested, pending or translated) - (note: always request human translation)   
-4) The list should be dynamically ordered by the size of the translated messages   
-
-#### Requirements
-* Use Flask web framework
-* Use Bootstrap
-* Use PostgreSQL
-* Create a scalable application. 
-* Only use Unbabel's Translation API on sandbox mode
-* Have tests
+* Docker
 
 
-#### Notes
-* Page load time shouldnt exceed 1 second
+### Installing
+
+In order to install the system put the .env file with the enviroment variables into 
+
+```
+/src
+```
+after that cd into /src and build the system with docker-compose.
+
+```
+docker-compose up --build
+```
+
+### Database Setup
+Before you can test the system, you have to execute the database migrations.
+The database starts in an empty state so you have to create translations in the UI to add them into the database.
+
+```
+docker-compose exec backend flask db init
+```
+
+```
+docker-compose exec backend flask db migrate
+```
+
+```
+docker-compose exec backend flask db upgrade
+```
 
 
-#### Resources
-* Unbabel's API: http://developers.unbabel.com/
+## Running the tests
+You can run the tests by typing:
+```
+docker-compose exec backend pytest -s
+```
 
+## Built With
+
+* [Flask](https://palletsprojects.com/p/flask/) - Microframework
+* [Vue.js](https://vuejs.org/) - Frontend Framework
+* [Nginx](https://www.nginx.com/) - Load Balancer and Webserver
+* [Postgres](https://www.postgresql.org/) - Database
+* [uWSGI](https://uwsgi-docs.readthedocs.io/en/latest/) - WSGI Server
+* [Docker](https://www.docker.com/) - Container
+
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details

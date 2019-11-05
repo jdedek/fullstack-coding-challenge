@@ -10,3 +10,5 @@ flask-marshmallow==0.10.1
 marshmallow==2.15.2
 marshmallow-sqlalchemy==0.19.0
 requests==2.22.0
+pytest==5.2.2
+pytest-flask
